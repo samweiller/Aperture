@@ -57,6 +57,22 @@ end;
 crossMat(1:numTrials, 1) = mod(0:numTrials-1, 2) + 1;
 crossMat(1:numTrials, 2) = mod(1:numTrials, 2) + 1;
 
+for cM = 1:10
+    if crossMat(cM) == 2
+        crossMat(cM) = 3;
+    elseif crossMat(cM) == 1
+        crossMat(cM) = 4;
+    end;
+end;
+
+for cM = 21:30
+    if crossMat(cM) == 2
+        crossMat(cM) = 3;
+    elseif crossMat(cM) == 1
+        crossMat(cM) = 4;
+    end;
+end;
+
 positMat(1:numTrials, 1) = mod(0:numTrials-1, 3) + 1;
 positMat(1:numTrials, 2) = mod(1:numTrials, 3) + 1;
 positMat(1:numTrials, 3) = mod(2:numTrials+1, 3) + 1;
