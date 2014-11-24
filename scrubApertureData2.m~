@@ -78,25 +78,15 @@ for subject = 1:numSubjects
         switch DATA{index, 4}{1} % Condition
             case 'FACEINVERT'
                 cleanData.subject(subject).image(decryptionKeys(eCode, trial)).condition = 1;
-                cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(2));
             case 'FACEUPRIGHT'
                 cleanData.subject(subject).image(decryptionKeys(eCode, trial)).condition = 2;
-                cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(2));
             case 'SCENEINVERT'
                 cleanData.subject(subject).image(decryptionKeys(eCode, trial)).condition = 3;
-                if isstrprop(DATA{index, 6}{1}(3), 'alpha')
-                    cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(4));
-                else
-                    cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(3));
-                end;
             case 'SCENEUPRIGHT'
                 cleanData.subject(subject).image(decryptionKeys(eCode, trial)).condition = 4;
-                if isstrprop(DATA{index, 6}{1}(3), 'alpha')
-                    cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(4));
-                else
-                    cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(3));
-                end;
         end;
+        
+        cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(4));
         
         switch DATA{index, 5}{1} % Position
             case 'SOUTHEAST'
@@ -126,7 +116,7 @@ sub = 1;
 for subCounter = 1:numSubjects
     for imageCount = 1:numImages
         conditionNo = cleanData.subject(subCounter).image(imageCount).condition;
-        imageNo = cleanData.subject(subCounter).image(imageCount).imageNum;
+        imageNo = cleanData.subject(subCounter).image(imageCount).imageNum + 1;
         position = cleanData.subject(subCounter).image(imageCount).location;
         
         if strcmp(cleanData.subject(subCounter).image(imageCount).validity, 'VALID')
