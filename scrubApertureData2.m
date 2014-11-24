@@ -78,25 +78,15 @@ for subject = 1:numSubjects
         switch DATA{index, 4}{1} % Condition
             case 'FACEINVERT'
                 cleanData.subject(subject).image(decryptionKeys(eCode, trial)).condition = 1;
-                cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(2));
             case 'FACEUPRIGHT'
                 cleanData.subject(subject).image(decryptionKeys(eCode, trial)).condition = 2;
-                cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(2));
             case 'SCENEINVERT'
                 cleanData.subject(subject).image(decryptionKeys(eCode, trial)).condition = 3;
-                if isstrprop(DATA{index, 6}{1}(3), 'alpha')
-                    cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(4));
-                else
-                    cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(3));
-                end;
             case 'SCENEUPRIGHT'
                 cleanData.subject(subject).image(decryptionKeys(eCode, trial)).condition = 4;
-                if isstrprop(DATA{index, 6}{1}(3), 'alpha')
-                    cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(4));
-                else
-                    cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(3));
-                end;
         end;
+        
+        cleanData.subject(subject).image(decryptionKeys(eCode, trial)).imageNum = str2double(DATA{index, 6}{1}(4));
         
         switch DATA{index, 5}{1} % Position
             case 'SOUTHEAST'
@@ -124,9 +114,9 @@ AOIbox(3, :) = [xc-350, yc-350, xc+350, yc+350];
 
 sub = 1;
 for subCounter = 1:numSubjects
-    for imageCount = 1:numImages
+    for imageCount = 1:40
         conditionNo = cleanData.subject(subCounter).image(imageCount).condition;
-        imageNo = cleanData.subject(subCounter).image(imageCount).imageNum;
+        imageNo = cleanData.subject(subCounter).image(imageCount).imageNum + 1;
         position = cleanData.subject(subCounter).image(imageCount).location;
         
         if strcmp(cleanData.subject(subCounter).image(imageCount).validity, 'VALID')
@@ -135,17 +125,7 @@ for subCounter = 1:numSubjects
             Subject(sub).condition(conditionNo).image(imageNo).location(position).fixations(2, 1) = cleanData.subject(subCounter).image(imageCount).fixations(3,1);
             Subject(sub).condition(conditionNo).image(imageNo).location(position).fixations(2, 2) = cleanData.subject(subCounter).image(imageCount).fixations(3,2);
             
-            
-            
-%             Subject(sub).DATAMAT(imageCount, 4) = cleanData.subject(sub).image(imageCount).fixations(2,1);
-%             Subject(sub).DATAMAT(imageCount, 5) = cleanData.subject(sub).image(imageCount).fixations(2,2);
-%             
-%             Subject(sub).DATAMAT(imageCount, 6) = IsInRect(Subject(sub).DATAMAT(imageCount, 4), Subject(sub).DATAMAT(imageCount, 5), AOIbox(Subject(sub).DATAMAT(imageCount, 3), :));
-%             
-%             Subject(sub).DATAMAT(imageCount, 7) = cleanData.subject(sub).image(imageCount).fixations(3,1);
-%             Subject(sub).DATAMAT(imageCount, 8) = cleanData.subject(sub).image(imageCount).fixations(3,2);
-            
-            absoluteImageNumber = (numImages*(cleanData.subject(subCounter).image(imageCount).condition - 1)) + (3*(cleanData.subject(subCounter).image(imageCount).imageNum-1)) + cleanData.subject(subCounter).image(imageCount).location;
+            absoluteImageNumber = (30*(cleanData.subject(subCounter).image(imageCount).condition - 1)) + (3*(cleanData.subject(subCounter).image(imageCount).imageNum)) + cleanData.subject(subCounter).image(imageCount).location;
             DOTS{absoluteImageNumber, 1}(sub, 1) = Subject(sub).condition(conditionNo).image(imageNo).location(position).fixations(1, 1);
             DOTS{absoluteImageNumber, 1}(sub, 2) = Subject(sub).condition(conditionNo).image(imageNo).location(position).fixations(1, 2);
             DOTS{absoluteImageNumber, 2}(sub, 1) = Subject(sub).condition(conditionNo).image(imageNo).location(position).fixations(2, 1);
@@ -154,10 +134,6 @@ for subCounter = 1:numSubjects
         else
             Subject(sub).condition(conditionNo).image(imageNo).location(position).fixations(1:2, 1:2) = -1;
         end;
-        
-        
-        
-        
     end;
     
     %     fileName = sprintf('Aperture_Subject%02d_Data.csv', sub);
@@ -170,8 +146,8 @@ end;
 %% Distance (Hanging on the passenger side of hs best friend's ride...)
 i = 1;
 for outSub = 1:numSubjects/3
-    for outCon = 1:3
-        for outIm = 1:5
+    for outCon = 1:4
+        for outIm = 1:10
             outMatrix(i, 1) = outSub;
             outMatrix(i, 2) = outCon;
             outMatrix(i, 3) = outIm;
