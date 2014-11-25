@@ -176,15 +176,15 @@ dlmwrite('apertureNumberData.csv', outMatrix);
 %% Images (Trying to holler at me)
 targetIm = 2;
 
-[zz1 zz2] = unix('ls ./analysisImages/*.png | tee filenames.txt');
+[zz1 zz2] = unix('ls ~/Documents/ApertureData/imagesAbs/*.png | tee filenames.txt');
 fileIO = fopen('filenames.txt');
 names = textscan(fileIO, '%s');
 fclose(fileIO);
-for anaIm = 1:45
+for anaIm = 1:120
 %     fileName = sprintf('Image%02d_DOTS.csv', anaIm);
 %     csvwrite(fileName, DOTS{anaIm, 2});
     
-    figHolder = imread(sprintf('~/Documents/ApertureData/Ximages/%s', names{1}{anaIm}));
+    figHolder = imread(sprintf('%s', names{1}{anaIm}));
     image(figHolder);
     hold on;
     
@@ -192,9 +192,26 @@ for anaIm = 1:45
     
     switch mod(anaIm, 3)
         case 1 % loc A
-            plot(780, 652, 'r.', 'MarkerSize', 20);            
+            if anaIm <= 30
+                plot(780, 372, 'r.', 'MarkerSize', 20);
+            elseif (( anaIm >= 31 && anaIm <= 60 ))
+                plot(780, 652, 'r.', 'MarkerSize', 20);
+            elseif (( anaIm >= 61 && anaIm <= 90 ))
+                plot(780, 372, 'r.', 'MarkerSize', 20);
+            elseif (( anaIm >= 91 && anaIm <= 120 ))
+                plot(780, 652, 'r.', 'MarkerSize', 20);
+            end;
+            
         case 0 % loc C
-            plot(500, 372, 'r.', 'MarkerSize', 20);
+            if anaIm <= 30
+                plot(500, 652, 'r.', 'MarkerSize', 20);
+            elseif (( anaIm >= 31 && anaIm <= 60 ))
+                plot(500, 372, 'r.', 'MarkerSize', 20);
+            elseif (( anaIm >= 61 && anaIm <= 90 ))
+                plot(500, 652, 'r.', 'MarkerSize', 20);
+            elseif (( anaIm >= 91 && anaIm <= 120 ))
+                plot(500, 372, 'r.', 'MarkerSize', 20);
+            end;
     end;
     
     for j = 1:size(DOTS{anaIm},1)
